@@ -1,6 +1,9 @@
+use flate2::Compression;
+use flate2::write::ZlibEncoder;
 use sha1::{Digest, Sha1};
 use std::env;
 use std::fs;
+use std::io::Write;
 use std::path::Path;
 
 fn main() {
@@ -54,6 +57,18 @@ fn hash_object(path: &str) {
 
     let hash = Sha1::digest(&data);
     let hex: String = hash.iter().map(|b| format!("{:02x}", b)).collect();
+
+    // --- BARU: simpan objek ---
+    let dir = format!(".gitlet/objects/{}", &hex[..2]);
+    let file = format!("{}/{}", dir, &hex[2..]);
+
+    let mut encoder = ZlibEncoder::new(Vec::new(), Compression::default());
+    encoder.write_all(&data).unwrap();
+    let compressed = encoder.finish().unwrap();
+
+    fs::create_dir_all(&dir).unwrap();
+    fs::write(&file, compressed).unwrap();
+    // --- akhir bagian baru ---
 
     println!("{}", hex);
 }
