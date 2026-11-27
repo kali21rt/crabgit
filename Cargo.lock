@@ -39,6 +39,14 @@ dependencies = [
 ]
 
 [[package]]
+name = "crabgit"
+version = "0.1.0"
+dependencies = [
+ "flate2",
+ "sha1",
+]
+
+[[package]]
 name = "crc32fast"
 version = "1.5.6"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -76,14 +84,6 @@ dependencies = [
  "crc32fast",
  "miniz_oxide",
  "zlib-rs",
-]
-
-[[package]]
-name = "gitlet"
-version = "0.1.0"
-dependencies = [
- "flate2",
- "sha1",
 ]
 
 [[package]]

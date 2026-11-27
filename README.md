@@ -2,35 +2,35 @@
 
 A tiny Git implementation written from scratch in Rust, built to learn how Git works under the hood — and to learn Rust along the way.
 
-Objects created by gitlet use the exact same format as real Git, so Git can read them.
+Objects created by crabgit use the exact same format as real Git, so Git can read them.
 
 ![demo](docs/demo.png)
 
 ## Features
 
-- `gitlet init` — create an empty repository in `.gitlet/`
-- `gitlet hash-object <file>` — hash a file as a blob, compress it with zlib, and store it in `.gitlet/objects/`
+- `crabgit init` — create an empty repository in `.crabgit/`
+- `crabgit hash-object <file>` — hash a file as a blob, compress it with zlib, and store it in `.crabgit/objects/`
 
 ## Build
 
 Requires [Rust](https://www.rust-lang.org/tools/install) (stable).
 
 ```bash
-git clone https://github.com/kali21rt/gitlet.git
-cd gitlet
+git clone https://github.com/kali21rt/crabgit.git
+cd crabgit
 cargo build --release
 ```
 
-The binary will be at `target/release/gitlet`.
+The binary will be at `target/release/crabgit`.
 
 ## Usage
 
 ```bash
-$ gitlet init
-Initialized empty gitlet repository in .gitlet/
+$ crabgit init
+Initialized empty crabgit repository in .crabgit/
 
 $ echo "hello" > hello.txt
-$ gitlet hash-object hello.txt
+$ crabgit hash-object hello.txt
 ce013625030ba8dba906f756967f9e9ca394464a
 ```
 
@@ -52,10 +52,10 @@ blob <size>\0<content>
 1. Gitlet builds this header + content, e.g. `blob 6\0hello\n`
 2. Computes its **SHA-1** hash → `ce013625030ba8dba906f756967f9e9ca394464a`
 3. Compresses it with **zlib**
-4. Stores it at `.gitlet/objects/ce/013625030ba8dba906f756967f9e9ca394464a`
+4. Stores it at `.crabgit/objects/ce/013625030ba8dba906f756967f9e9ca394464a`
    (first 2 characters = directory, the rest = file name)
 
-Because the format matches Git exactly, you can copy a gitlet object into a real Git repository and read it with `git cat-file -p`.
+Because the format matches Git exactly, you can copy a crabgit object into a real Git repository and read it with `git cat-file -p`.
 
 ## Roadmap
 

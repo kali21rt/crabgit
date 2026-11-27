@@ -10,7 +10,7 @@ fn main() {
     let args: Vec<String> = env::args().collect();
 
     if args.len() < 2 {
-        eprintln!("usage: gitlet <command>");
+        eprintln!("usage: crabgit <command>");
         return;
     }
 
@@ -18,7 +18,7 @@ fn main() {
         "init" => init(),
         "hash-object" => {
             if args.len() < 3 {
-                eprintln!("usage: gitlet hash-object <file>");
+                eprintln!("usage: crabgit hash-object <file>");
                 return;
             }
             hash_object(&args[2]);
@@ -28,21 +28,21 @@ fn main() {
 }
 
 fn init() {
-    if Path::new(".gitlet").exists() {
-        eprintln!("gitlet repository already exists in .gitlet/");
+    if Path::new(".crabgit").exists() {
+        eprintln!("crabgit repository already exists in .crabgit/");
         return;
     }
 
-    fs::create_dir(".gitlet").unwrap();
-    fs::create_dir(".gitlet/objects").unwrap();
-    fs::create_dir_all(".gitlet/refs/heads").unwrap();
-    fs::write(".gitlet/HEAD", "ref: refs/heads/main\n").unwrap();
-    println!("Initialized empty gitlet repository in .gitlet/");
+    fs::create_dir(".crabgit").unwrap();
+    fs::create_dir(".crabgit/objects").unwrap();
+    fs::create_dir_all(".crabgit/refs/heads").unwrap();
+    fs::write(".crabgit/HEAD", "ref: refs/heads/main\n").unwrap();
+    println!("Initialized empty crabgit repository in .crabgit/");
 }
 
 fn hash_object(path: &str) {
-    if !Path::new(".gitlet").exists() {
-        eprintln!("fatal: not a gitlet repository");
+    if !Path::new(".crabgit").exists() {
+        eprintln!("fatal: not a crabgit repository");
         return;
     }
 
@@ -64,7 +64,7 @@ fn hash_object(path: &str) {
     let hex: String = hash.iter().map(|b| format!("{:02x}", b)).collect();
 
     // --- BARU: simpan objek ---
-    let dir = format!(".gitlet/objects/{}", &hex[..2]);
+    let dir = format!(".crabgit/objects/{}", &hex[..2]);
     let file = format!("{}/{}", dir, &hex[2..]);
 
     let mut encoder = ZlibEncoder::new(Vec::new(), Compression::default());
