@@ -1,4 +1,4 @@
-# Gitlet
+# Crabgit
 
 A tiny Git implementation written from scratch in Rust, built to learn how Git works under the hood — and to learn Rust along the way.
 
