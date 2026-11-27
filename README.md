@@ -4,6 +4,10 @@ A tiny Git implementation written from scratch in Rust, built to learn how Git w
 
 Objects created by crabgit use the exact same format as real Git, so Git can read them.
 
+> [!NOTE]
+> This is a hobby and learning project. It is not meant to replace Git,
+> so please don't use it for anything important.
+
 ![demo](docs/demo.png)
 
 ## Features
