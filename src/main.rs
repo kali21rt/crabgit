@@ -41,6 +41,11 @@ fn init() {
 }
 
 fn hash_object(path: &str) {
+    if !Path::new(".gitlet").exists() {
+        eprintln!("fatal: not a gitlet repository");
+        return;
+    }
+
     let content = match fs::read(path) {
         Ok(c) => c,
         Err(e) => {
