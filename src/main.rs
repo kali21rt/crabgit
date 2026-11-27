@@ -1,3 +1,4 @@
+use sha1::{Digest, Sha1};
 use std::env;
 use std::fs;
 use std::path::Path;
@@ -12,6 +13,13 @@ fn main() {
 
     match args[1].as_str() {
         "init" => init(),
+        "hash-object" => {
+            if args.len() < 3 {
+                eprintln!("usage: gitlet hash-object <file>");
+                return;
+            }
+            hash_object(&args[2]);
+        }
         cmd => eprintln!("unknown command: {}", cmd),
     }
 }
@@ -27,4 +35,25 @@ fn init() {
     fs::create_dir_all(".gitlet/refs/heads").unwrap();
     fs::write(".gitlet/HEAD", "ref: refs/heads/main\n").unwrap();
     println!("Initialized empty gitlet repository in .gitlet/");
+}
+
+fn hash_object(path: &str) {
+    let content = match fs::read(path) {
+        Ok(c) => c,
+        Err(e) => {
+            eprintln!("fatal: could not open '{}' for reading: {}", path, e);
+            return;
+        }
+    };
+
+    let header = format!("blob {}\0", content.len());
+
+    let mut data = Vec::new();
+    data.extend_from_slice(header.as_bytes());
+    data.extend_from_slice(&content);
+
+    let hash = Sha1::digest(&data);
+    let hex: String = hash.iter().map(|b| format!("{:02x}", b)).collect();
+
+    println!("{}", hex);
 }
